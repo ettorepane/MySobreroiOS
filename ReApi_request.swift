@@ -19,9 +19,9 @@ struct apiRequest {
         let resourceString = "reapistaging.altervista.org/api.php?uname=\(userid)&password=\(passwd)"
         guard let resourceURL = URL(string: resourceString) else {fatalError()}
         self.resourceURL = resourceURL
-        
+        print("resourceURL")
     }
     
 }
 
-// creating the resource data URL
+
