@@ -15,26 +15,53 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let userid = "x"
-        let passwd = "x"
-        guard let url = URL(string: "http://reapistaging.altervista.org/api.php?uname=\(userid)&password=\(passwd)") else {return}
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-        guard let dataResponse = data,
-                  error == nil else {
-                  print(error?.localizedDescription ?? "Response Error")
-                  return }
-            do{
-                //here dataResponse received from a network request
-                let jsonResponse = try JSONSerialization.jsonObject(with:
-                                       dataResponse, options: [])
-                print(jsonResponse) //Response result
-             } catch let parsingError {
-                print("Error", parsingError)
-           }
+        struct Comunicazioni: Decodable {
+            let data: String
+            let mittente: String
+            let contenuto: String
         }
-        task.resume()
+        
+        struct Docenti: Decodable {
+            let docente: String
+            let materie: String
+        }
+        
+        struct User: Decodable {
+            let matricola: String
+            let nome: String
+            let cognome: String
+            let classe: String
+            let sezione: String
+            let corso: String
+            let periodo: String
+            
+        }
         
         
-    }
+        struct Main: Decodable {
+            let version: String
+            let user: User
+            
+        }
+        
+        
+        let userid = "username"
+        let passwd = "password"
+
+        let url = URL(string: "http://reapistaging.altervista.org/api.php?uname=\(userid)&password=\(passwd)")
+
+
+        URLSession.shared.dataTask(with: url!) {data ,_ ,_ in
+            
+            if let data = data {
+                let main = try? JSONDecoder().decode(Main.self, from: data)
+                print(data)
+                print("JSON PARSING SUCCESS, Version: " + (main!.version))
+                print("Student Name: " + (main!.user.nome) + " " + (main!.user.cognome))
+                
+            }
+            
+        }.resume()
 }
 
+}

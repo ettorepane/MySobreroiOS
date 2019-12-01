@@ -8,20 +8,38 @@
 
 import Foundation
 
-// needs to work with uid and passwd
-
-struct apiRequest {
-    let resourceURL:URL
-    let userid = ""
-    let passwd = ""
-// creating the resource data URL
-    init(url:String) {
-        let resourceString = "reapistaging.altervista.org/api.php?uname=\(userid)&password=\(passwd)"
-        guard let resourceURL = URL(string: resourceString) else {fatalError()}
-        self.resourceURL = resourceURL
-        print("resourceURL")
-    }
+/*struct User: Decodable {
+    let matricola: String
+    let nome: String
+    let cognome: String
+    let classe: String
+    let sezione: String
+    let corso: String
+    let periodo: String
     
 }
 
 
+struct Main: Decodable {
+    let version: String
+    let user: User
+    
+    
+}
+
+
+let userid = "username"
+let passwd = "password"
+
+let url = URL(string: "http://reapistaging.altervista.org/api.php?uname=\(userid)&password=\(passwd)")
+
+
+URLSession.shared.dataTask(with: url!) {data ,_ ,_ in
+    
+    if let data = data {
+        let main = try? JSONDecoder().decode(Main.self, from: data)
+        print(data)
+    }
+    
+}.resume()
+*/
